@@ -1,0 +1,8 @@
+universidad: Universidad Mariano Galvez De Guatemala
+Facultad: Facultad De Ingeniería 
+Titulo: Integración 
+estudiante: Cristian Alberto Mendez Rivera
+Carnet: 9941 - 25 - 5734 
+Carrera: Ingeniería en Sistemas / computación 
+Asignatura: Calculo II
+titulo superior a universidad: Calculo II

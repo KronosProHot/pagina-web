@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: integracion-calculo2
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./

@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTEGRACIÓN | CÁLCULO II - Universidad Mariano Gálvez de Guatemala</title>
+    <!-- Local Extracted Tailwind CSS Engine -->
+    <script src="vendor/tailwind.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#02040a',
+                        cardbg: '#040914',
+                        quantumcyan: '#00f0ff',
+                        razorpurple: '#7b61ff',
+                        acidemerald: '#00ff88',
+                        plasmapink: '#ff007a'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Local Extracted KaTeX Math Engine -->
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+    <script defer src="vendor/katex/katex.min.js"></script>
+    <script defer src="vendor/katex/auto-render.min.js"></script>
+
+    <!-- Local Extracted GSAP (GreenSock Animation Platform) -->
+    <script src="vendor/gsap.min.js"></script>
+
+    <!-- Custom Aggressive Cyber-Math Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-darkbg text-slate-100 min-h-screen relative selection:bg-cyan-400 selection:text-black flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Top Neon Reading/Slide Progress Bar -->
+    <div id="top-progress-bar"></div>
+
+    <!-- 2D Canvas Background Procedural & Particle Grid -->
+    <canvas id="math-bg-canvas"></canvas>
+
+    <!-- Top HUD Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-2xl border-b border-cyan-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#home" data-goto-page="home" class="flex items-center gap-2 group cursor-pointer">
+                <span class="text-3xl font-black text-cyan-400 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,240,255,0.8)]">∫</span>
+                <div class="flex flex-col">
+                    <span class="font-extrabold tracking-widest text-sm sm:text-base font-mono bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">CÁLCULO II</span>
+                    <span class="text-[9px] font-mono text-cyan-500/70 tracking-widest">[ PROCEDURAL // HUD v3.0 ]</span>
+                </div>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-1.5 lg:gap-2 text-xs lg:text-sm font-medium">
+                <button class="nav-tab-btn active" data-target-page="home">[ 01. INICIO ]</button>
+                <button class="nav-tab-btn" data-target-page="definiciones">[ 02. TEORÍA ]</button>
+                <button class="nav-tab-btn" data-target-page="simulaciones">[ 03. PROCEDURAL ]</button>
+                <button class="nav-tab-btn" data-target-page="historia">[ 04. HISTORIA ]</button>
+                <button class="nav-tab-btn" data-target-page="video-seccion">[ 05. VIDEO ]</button>
+                <button class="nav-tab-btn" data-target-page="ejercicios">[ 06. PRÁCTICA ]</button>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <!-- Fullscreen Toggle Button -->
+                <button id="fullscreen-toggle-btn" title="Modo Pantalla Completa (F)" class="p-2 rounded-lg bg-slate-900/90 hover:bg-cyan-950/50 border border-cyan-500/30 text-cyan-400 transition-all shadow-[0_0_15px_rgba(0,240,255,0.15)]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                </button>
+
+                <!-- Navigation Indicator -->
+                <div class="flex items-center gap-1.5 font-mono text-xs bg-slate-900/90 px-3 py-1.5 rounded-lg border border-cyan-500/30 text-slate-300 shadow-inner">
+                    <span class="text-cyan-400 font-bold" id="pagination-current-num">1</span>
+                    <span class="text-slate-600">/</span>
+                    <span id="pagination-total-num">6</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container with Independent Pages -->
+    <main class="content-wrapper pt-16 flex-grow flex flex-col justify-between">
+        
+        <!-- ========================================== -->
+        <!-- PÁGINA 1: INICIO / HERO PROCEDURAL         -->
+        <!-- ========================================== -->
+        <section id="home" class="page-view active-page w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[calc(100vh-8.5rem)] flex flex-col justify-between items-center">
+            
+            <!-- Parte Superior: Nombre de la Universidad & Badge Agresivo CÁLCULO II -->
+            <div class="text-center pt-2 sm:pt-4 w-full max-w-4xl mx-auto">
+                <div class="cyber-badge mb-3">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>CÁLCULO II</span>
+                </div>
+                <h2 data-bind="university" class="text-xl sm:text-2xl md:text-4xl font-black tracking-widest uppercase text-slate-100 font-mono drop-shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                    UNIVERSIDAD MARIANO GÁLVEZ DE GUATEMALA
+                </h2>
+                <p data-bind="faculty" class="text-xs sm:text-sm text-cyan-400 font-mono tracking-widest mt-1 uppercase">
+                    FACULTAD DE INGENIERÍA
+                </p>
+            </div>
+
+            <!-- Parte Central de Hero: Título Principal & Badges de Landing -->
+            <div class="text-center my-auto py-6 sm:py-8 flex flex-col items-center relative">
+                <div class="relative">
+                    <span class="absolute -top-16 sm:-top-24 left-1/2 -translate-x-1/2 text-8xl sm:text-9xl md:text-[13rem] text-cyan-500/15 font-serif select-none pointer-events-none math-symbol-hero">
+                        ∫
+                    </span>
+                    <h1 class="text-5xl sm:text-7xl md:text-9xl font-black uppercase tracking-tight hero-title-aggressive mb-4">
+                        INTEGRACIÓN
+                    </h1>
+                </div>
+
+                <p class="max-w-2xl text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed px-4">
+                    La esencia del cálculo infinitesimal: la suma continua de lo infinitamente pequeño para desvelar el área, el volumen y la acumulación analítica.
+                </p>
+
+                <!-- Equation Badge Preview -->
+                <div class="mt-6 px-6 py-2.5 rounded-xl hud-panel border border-cyan-400/40 inline-flex items-center gap-4 text-cyan-300 text-lg sm:text-xl font-mono shadow-[0_0_30px_rgba(0,240,255,0.25)]">
+                    <span>$\int_{a}^{b} f(x)\,dx = F(b) - F(a)$</span>
+                </div>
+
+                <!-- Landing Metric Counters (Estrategia de Landing Page) -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 w-full max-w-3xl">
+                    <div class="stat-card-aggressive text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono counter-val" data-target="2200" data-prefix="+">0</div>
+                        <div class="text-[11px] text-slate-400 font-mono uppercase tracking-wider mt-1">Años de Historia</div>
+                    </div>
+                    <div class="stat-card-aggressive text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400 font-mono counter-val" data-target="3" data-prefix="">0</div>
+                        <div class="text-[11px] text-slate-400 font-mono uppercase tracking-wider mt-1">Simuladores Vivos</div>
+                    </div>
+                    <div class="stat-card-aggressive text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-400 font-mono counter-val" data-target="60" data-suffix=" FPS">0</div>
+                        <div class="text-[11px] text-slate-400 font-mono uppercase tracking-wider mt-1">Canvas 2D / 60 FPS</div>
+                    </div>
+                    <div class="stat-card-aggressive text-center">
+                        <div class="text-2xl sm:text-3xl font-black text-pink-400 font-mono counter-val" data-target="100" data-suffix="%">0</div>
+                        <div class="text-[11px] text-slate-400 font-mono uppercase tracking-wider mt-1">Rigor Analítico</div>
+                    </div>
+                </div>
+
+                <!-- Call to Action Buttons (CTAs Agresivos) -->
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <button data-goto-page="definiciones" class="ripple-btn cyber-btn-primary">
+                        INICIAR PROTOCOLO →
+                    </button>
+                    <button data-goto-page="simulaciones" class="ripple-btn cyber-btn-secondary">
+                        VER FIGURAS PROCEDURALES
+                    </button>
+                    <button data-goto-page="video-seccion" class="ripple-btn cyber-btn-secondary">
+                        MÓDULO DE VIDEO
+                    </button>
+                    <button data-goto-page="ejercicios" class="ripple-btn cyber-btn-secondary">
+                        EJERCICIOS RESUELTOS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Parte Inferior: Ficha Técnica del Estudiante / Autor -->
+            <div class="w-full max-w-5xl mx-auto pb-2">
+                <div class="hud-panel rounded-2xl p-6 sm:p-7 shadow-2xl relative">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-cyan-500/20 gap-2 mb-5">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                            <span class="text-xs font-mono uppercase tracking-widest text-cyan-300 font-bold">[ FICHA TÉCNICA DEL OPERADOR &bull; DATOS ACADÉMICOS ]</span>
+                        </div>
+                        <span data-bind="date" class="text-xs font-mono text-cyan-300 bg-cyan-950/60 px-3 py-1 border border-cyan-500/40">
+                            Octubre 2026
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">ESTUDIANTE / AUTOR</span>
+                            <span data-bind="studentName" class="text-base sm:text-lg font-bold text-slate-100 font-mono">
+                                Cristian Alberto Mendez Rivera
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">MATRÍCULA / CARNET</span>
+                            <span data-bind="studentId" class="text-base sm:text-lg font-semibold font-mono text-cyan-300">
+                                9941 - 25 - 5734
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">CARRERA</span>
+                            <span data-bind="career" class="text-base sm:text-lg font-medium text-slate-200">
+                                Ingeniería en Sistemas / computación
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block font-mono uppercase tracking-wider">ASIGNATURA</span>
+                            <span data-bind="course" class="text-base sm:text-lg font-medium text-purple-400 font-mono">
+                                Calculo II
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
+                        <div>
+                            <span>Catedrático Titular: </span>
+                            <strong data-bind="professor" class="text-slate-200 font-semibold">Catedrático de Cálculo II</strong>
+                        </div>
+                        <div class="text-cyan-400 font-mono text-xs">
+                            CÁLCULO II &bull; MODALIDAD PÁGINA A PÁGINA
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- PÁGINA 2: DEFINICIONES Y CONTENIDO TEÓRICO -->
+        <!-- ========================================== -->
+        <section id="definiciones" class="page-view hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[calc(100vh-8.5rem)]">
+            <div class="text-center mb-12">
+                <span class="telemetry-tag uppercase tracking-widest">[ APARTADO 02 // MARCO TEÓRICO ]</span>
+                <h2 class="text-3xl sm:text-5xl font-black mt-3 text-slate-100 font-mono">Definiciones & Fundamentos de la Integración</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-sm sm:text-base">
+                    La integración constituye una de las dos operaciones pilares del cálculo infinitesimal, complementaria y recíproca a la diferenciación.
+                </p>
+            </div>
+
+            <!-- Grid de Definiciones Clave con HUD Style -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                
+                <!-- Tarjeta 1: Antiderivada / Integral Indefinida -->
+                <div class="hud-panel p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center text-cyan-400 mb-6 font-mono font-bold text-2xl shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                            ∫
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono">Integral Indefinida</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            Dada una función continua $f(x)$, su integral indefinida representa la familia de todas las funciones primitivas $F(x)$ cuya derivada es igual a $f(x)$:
+                        </p>
+                        <div class="p-4 bg-slate-950/90 border border-cyan-500/30 text-center font-mono text-cyan-300 text-sm my-3 shadow-inner">
+                            $$\int f(x)\,dx = F(x) + C$$
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">
+                            Donde $C$ es la <em>constante arbitraria de integración</em>, reflejando que la derivada de cualquier término constante es idénticamente cero.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Integral Definida -->
+                <div class="hud-panel p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-purple-500/10 border border-purple-400/40 flex items-center justify-center text-purple-400 mb-6 font-mono font-bold text-lg shadow-[0_0_15px_rgba(123,97,255,0.3)]">
+                            lim ∑
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono">Integral Definida (Riemann)</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            Representa el valor neto acumulado o el área con signo delimitada por la gráfica de $f(x)$, el eje $X$ y las rectas verticales $x = a$ y $x = b$:
+                        </p>
+                        <div class="p-4 bg-slate-950/90 border border-purple-500/30 text-center font-mono text-purple-300 text-sm my-3 shadow-inner">
+                            $$\int_a^b f(x)\,dx = \lim_{\|\mathcal{P}\| \to 0} \sum_{i=1}^{n} f(x_i^*)\,\Delta x_i$$
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">
+                            El límite de la suma de infinitos rectángulos infinitesimales es el fundamento analítico formalizado por Bernhard Riemann.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Teorema Fundamental del Cálculo -->
+                <div class="hud-panel p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-lg bg-pink-500/10 border border-pink-400/40 flex items-center justify-center text-pink-400 mb-6 font-mono font-bold text-lg shadow-[0_0_15px_rgba(255,0,122,0.3)]">
+                            TFC
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono">Teorema Fundamental</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            El puente que une el mundo de las derivadas con el de las integrales en dos partes inseparables:
+                        </p>
+                        <div class="p-4 bg-slate-950/90 border border-pink-500/30 text-left font-mono text-pink-300 text-xs my-3 space-y-2 shadow-inner">
+                            <div><strong>Parte 1:</strong> $\frac{d}{dx} \left[ \int_a^x f(t)\,dt \right] = f(x)$</div>
+                            <div><strong>Parte 2:</strong> $\int_a^b f(x)\,dx = F(b) - F(a)$</div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2">
+                            Permite calcular integrales definidas evaluando simplemente la antiderivada en los límites de integración.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tabla de Propiedades Fundamentales -->
+            <div class="hud-panel p-6 sm:p-8">
+                <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2 font-mono">
+                    <span class="w-2.5 h-2.5 bg-cyan-400 animate-pulse"></span>
+                    PROPIEDADES ALGEBRAICAS FUNDAMENTALES DE LA INTEGRAL
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+                    <div class="p-4 bg-slate-950/80 border border-slate-800">
+                        <span class="text-cyan-400 block font-semibold mb-1">Linealidad de la suma:</span>
+                        $\int [f(x) \pm g(x)]\,dx = \int f(x)\,dx \pm \int g(x)\,dx$
+                    </div>
+                    <div class="p-4 bg-slate-950/80 border border-slate-800">
+                        <span class="text-cyan-400 block font-semibold mb-1">Factor constante:</span>
+                        $\int k \cdot f(x)\,dx = k \int f(x)\,dx$
+                    </div>
+                    <div class="p-4 bg-slate-950/80 border border-slate-800">
+                        <span class="text-cyan-400 block font-semibold mb-1">Aditividad de intervalos:</span>
+                        $\int_a^b f(x)\,dx = \int_a^c f(x)\,dx + \int_c^b f(x)\,dx$
+                    </div>
+                    <div class="p-4 bg-slate-950/80 border border-slate-800">
+                        <span class="text-cyan-400 block font-semibold mb-1">Inversión de límites:</span>
+                        $\int_a^b f(x)\,dx = -\int_b^a f(x)\,dx$
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- PÁGINA 3: FIGURAS E IMÁGENES PROCEDURALES  -->
+        <!-- ========================================== -->
+        <section id="simulaciones" class="page-view hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[calc(100vh-8.5rem)]">
+            <div class="text-center mb-12">
+                <span class="telemetry-tag uppercase tracking-widest text-emerald-400">[ APARTADO 03 // SIMULACIÓN PROCEDURAL EN VIVO ]</span>
+                <h2 class="text-3xl sm:text-5xl font-black mt-3 text-slate-100 font-mono">Figuras & Gráficos Procedurales Interactivos</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-sm sm:text-base">
+                    Todas las figuras e ilustraciones son generadas matemáticamente en tiempo real por algoritmos procedurales en el elemento Canvas a 60 FPS.
+                </p>
+            </div>
+
+            <!-- SIMULACIÓN 1: Sumas de Riemann en Vivo -->
+            <div class="hud-panel p-6 sm:p-10 mb-10 border border-cyan-400/40">
+                <div class="flex flex-col lg:flex-row items-start justify-between gap-6 pb-6 border-b border-cyan-500/20">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">
+                            <span>Figura Procedural 1</span> &bull; <span>Aproximación de Área</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-100 font-mono">Sumas de Riemann: El Paso al Límite</h3>
+                        <p class="text-sm text-slate-400 mt-1">
+                            Aumenta las particiones $n$ para observar cómo los rectángulos convergen con exactitud al área bajo la curva.
+                        </p>
+                    </div>
+
+                    <!-- Métricas Procedurales en Vivo -->
+                    <div class="flex flex-wrap gap-4 text-xs font-mono">
+                        <div class="px-4 py-2 bg-slate-950/90 border border-cyan-500/30">
+                            <span class="text-slate-400 block">Suma de Riemann:</span>
+                            <span id="riemann-calc-sum" class="text-lg font-bold text-cyan-400">0.00000</span>
+                        </div>
+                        <div class="px-4 py-2 bg-slate-950/90 border border-emerald-500/30">
+                            <span class="text-slate-400 block">Integral Exacta $\int_a^b f(x)dx$:</span>
+                            <span id="riemann-calc-exact" class="text-lg font-bold text-emerald-400">0.00000</span>
+                        </div>
+                        <div class="px-4 py-2 bg-slate-950/90 border border-amber-500/30">
+                            <span class="text-slate-400 block">Error Absoluto $|\Delta|$:</span>
+                            <span id="riemann-calc-error" class="text-lg font-bold text-amber-400">0.00000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas de Riemann -->
+                <div class="relative w-full h-80 sm:h-96 my-6 overflow-hidden bg-slate-950/95 border border-cyan-500/30 flex items-center justify-center shadow-inner">
+                    <canvas id="riemann-canvas" class="w-full h-full"></canvas>
+                </div>
+
+                <!-- Controles Interactivos -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+                    <div class="p-4 bg-slate-950/70 border border-slate-800">
+                        <div class="flex justify-between text-xs font-mono mb-2">
+                            <span class="text-slate-300">Número de Rectángulos ($n$):</span>
+                            <span id="riemann-n-val" class="text-cyan-400 font-bold">10</span>
+                        </div>
+                        <input id="riemann-n-slider" type="range" min="2" max="60" value="10" class="w-full accent-cyan-400 cursor-pointer">
+                    </div>
+
+                    <div class="p-4 bg-slate-950/70 border border-slate-800">
+                        <label class="text-xs font-mono text-slate-300 block mb-2">Criterio de Evaluación:</label>
+                        <select id="riemann-rule-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
+                            <option value="mid">Punto Medio (Regla de Riemann)</option>
+                            <option value="left">Extremo Izquierdo</option>
+                            <option value="right">Extremo Derecho</option>
+                        </select>
+                    </div>
+
+                    <div class="p-4 bg-slate-950/70 border border-slate-800">
+                        <label class="text-xs font-mono text-slate-300 block mb-2">Función Matemática $f(x)$:</label>
+                        <select id="riemann-func-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
+                            <option value="quadratic">Parábola: f(x) = 0.25x² + 0.5</option>
+                            <option value="sine">Onda: f(x) = 1.5·sin(x) + 2</option>
+                            <option value="cubic">Cúbica: f(x) = 0.1x³ - 0.5x² + 0.8x + 1.5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULACIÓN 2 & 3: Arquímedes y Función de Acumulación -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Figura Procedural 2: Método de Exhaución de Arquímedes -->
+                <div class="hud-panel p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-purple-500/30">
+                            <span class="text-xs font-mono text-purple-400 uppercase tracking-widest font-bold">Figura Procedural 2</span>
+                            <span class="text-xs text-slate-400 font-mono">Antigüedad Griega</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 mt-3 font-mono">Método de Exhaución de Arquímedes</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Aproximación geométrica del círculo mediante polígonos regulares inscritos (verde) y circunscritos (rojo).
+                        </p>
+
+                        <div class="relative w-full h-64 my-4 overflow-hidden bg-slate-950/95 border border-purple-500/30">
+                            <canvas id="archimedes-canvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="text-slate-300">Lados del Polígono ($n$): <strong id="archimedes-sides-val" class="text-purple-400">6</strong></span>
+                            <div class="text-right">
+                                <span class="text-emerald-400">Inscrito: <span id="archimedes-inner-pi">2.598</span></span> | 
+                                <span class="text-red-400">Circunscrito: <span id="archimedes-outer-pi">3.464</span></span>
+                            </div>
+                        </div>
+                        <input id="archimedes-sides-slider" type="range" min="3" max="36" value="6" class="w-full accent-purple-400 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Figura Procedural 3: Teorema Fundamental y Función de Acumulación -->
+                <div class="hud-panel p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-cyan-500/30">
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest font-bold">Figura Procedural 3</span>
+                            <span class="text-xs text-slate-400 font-mono">Teorema Fundamental</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 mt-3 font-mono">Función Acumuladora $F(x) = \int_0^x f(t)\,dt$</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Mueve el límite superior $x$ para observar cómo el área acumulada (sombreada) traza la curva primitiva verde $F(x)$.
+                        </p>
+
+                        <div class="relative w-full h-64 my-4 overflow-hidden bg-slate-950/95 border border-cyan-500/30">
+                            <canvas id="accumulation-canvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono mb-2">
+                            <span class="text-slate-300">Límite $x$: <strong id="accum-x-val" class="text-cyan-400">2.50</strong></span>
+                            <div class="text-right font-mono">
+                                <span class="text-cyan-400">f(x): <span id="accum-ft-val">1.75</span></span> | 
+                                <span class="text-emerald-400">F(x): <span id="accum-integral-val">4.12</span></span>
+                            </div>
+                        </div>
+                        <input id="accum-x-slider" type="range" min="0.2" max="4.8" step="0.05" value="2.5" class="w-full accent-cyan-400 cursor-pointer">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- PÁGINA 4: HISTORIA DEL TEMA               -->
+        <!-- ========================================== -->
+        <section id="historia" class="page-view hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[calc(100vh-8.5rem)]">
+            <div class="text-center mb-12">
+                <span class="telemetry-tag uppercase tracking-widest text-purple-400">[ APARTADO 04 // CRONOLOGÍA HISTÓRICA ]</span>
+                <h2 class="text-3xl sm:text-5xl font-black mt-3 text-slate-100 font-mono">La Odisea Histórica del Cálculo Integral</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-sm sm:text-base">
+                    Desde las cuadraturas geométricas de la Grecia clásica hasta el rigor analítico del siglo XIX y la teoría de la medida contemporánea.
+                </p>
+            </div>
+
+            <!-- Línea de Tiempo Histórica con HUD Style -->
+            <div class="relative border-l-2 border-cyan-500/40 ml-4 sm:ml-32 space-y-12">
+                
+                <!-- Hito 1: Arquímedes -->
+                <div class="relative pl-8 sm:pl-10">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-cyan-400 shadow-[0_0_15px_#00f0ff]"></div>
+                    <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest font-bold">Siglo III a.C. &bull; Siracusa, Grecia Magna</span>
+                    <h3 class="text-xl font-bold text-slate-100 mt-1 font-mono">Arquímedes de Siracusa y el Método de Exhaución</h3>
+                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+                        Perfeccionando las ideas de Eudoxo, Arquímedes calculó con asombrosa precisión el área encerrada por una parábola y una recta, el volumen de la esfera y el área del círculo inscribiendo y circunscribiendo polígonos de hasta 96 lados. Su enfoque es considerado el antecedente directo más brillante del concepto de límite e integración.
+                    </p>
+                </div>
+
+                <!-- Hito 2: Newton y Leibniz -->
+                <div class="relative pl-8 sm:pl-10">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-purple-400 shadow-[0_0_15px_#7b61ff]"></div>
+                    <span class="font-mono text-xs text-purple-400 uppercase tracking-widest font-bold">Finales del Siglo XVII (1665 - 1684) &bull; Inglaterra y Alemania</span>
+                    <h3 class="text-xl font-bold text-slate-100 mt-1 font-mono">Isaac Newton & Gottfried Wilhelm Leibniz</h3>
+                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+                        De forma independiente, Newton (método de fluxiones) y Leibniz (cálculo de diferencias y sumas) descubrieron la conexión fundamental: <strong>la derivación y la integración son operaciones inversas</strong>. Leibniz introdujo la inmortal notación $\int$, una 'S' alargada que simboliza <em>Summa</em> (suma continua), y los diferenciales $dx$, dotando a la humanidad del lenguaje matemático que aún utilizamos hoy.
+                    </p>
+                </div>
+
+                <!-- Hito 3: Riemann y Cauchy -->
+                <div class="relative pl-8 sm:pl-10">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-pink-400 shadow-[0_0_15px_#ff007a]"></div>
+                    <span class="font-mono text-xs text-pink-400 uppercase tracking-widest font-bold">Siglo XIX (1821 - 1854) &bull; Francia y Alemania</span>
+                    <h3 class="text-xl font-bold text-slate-100 mt-1 font-mono">Augustin-Louis Cauchy & Bernhard Riemann</h3>
+                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+                        Durante casi dos siglos, el cálculo operó sobre bases intuitivas de infinitésimos. Cauchy y posteriormente Bernhard Riemann en su tesis de habilitación de 1854 establecieron la primera definición puramente analítica y rigurosa basada en particiones, sumas superiores e inferiores, prescindiendo de conceptos geométricos ambiguos y dando vida a la <em>Integral de Riemann</em>.
+                    </p>
+                </div>
+
+                <!-- Hito 4: Henri Lebesgue -->
+                <div class="relative pl-8 sm:pl-10">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-emerald-400 shadow-[0_0_15px_#00ff88]"></div>
+                    <span class="font-mono text-xs text-emerald-400 uppercase tracking-widest font-bold">Siglo XX (1902) &bull; París, Francia</span>
+                    <h3 class="text-xl font-bold text-slate-100 mt-1 font-mono">Henri Lebesgue y la Teoría de la Medida</h3>
+                    <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+                        Al encontrarse con funciones discontinuas patológicas, Henri Lebesgue reformuló la integración particionando el rango en lugar del dominio (eje $Y$ en lugar del eje $X$), creando la <em>Integral de Lebesgue</em>. Esta generalización permitió fundamentar rigurosamente el análisis de Fourier, la mecánica cuántica moderna y la teoría matemática de probabilidades.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- PÁGINA 5: ESPACIO PARA VIDEO EXPLICATIVO   -->
+        <!-- ========================================== -->
+        <section id="video-seccion" class="page-view hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[calc(100vh-8.5rem)]">
+            <div class="text-center mb-10">
+                <span class="telemetry-tag uppercase tracking-widest text-cyan-400">[ APARTADO 05 // TERMINAL AUDIOVISUAL ]</span>
+                <h2 class="text-3xl sm:text-5xl font-black mt-3 text-slate-100 font-mono">Video Explicativo</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-sm sm:text-base">
+                    Área audiovisual destinada a la exposición y análisis del contenido de Integración en Cálculo II.
+                </p>
+            </div>
+
+            <!-- Contenedor Principal del Video con HUD Cockpit Styling -->
+            <div class="max-w-4xl mx-auto hud-panel p-6 sm:p-10 border border-cyan-400/40 shadow-2xl">
+                
+                <!-- Reproductor de Video / Display -->
+                <div id="video-display-container" class="relative w-full aspect-video overflow-hidden bg-slate-950 border border-cyan-500/30 flex items-center justify-center shadow-inner">
+                    
+                    <!-- Video Element -->
+                    <video id="main-video-player" class="w-full h-full object-contain" controls preload="metadata">
+                        <source src="video.mp4" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video HTML5.
+                    </video>
+
+                    <!-- Placeholder Informativo -->
+                    <div id="video-placeholder" class="absolute inset-0 bg-slate-950/90 text-center p-8 flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 bg-cyan-500/10 border border-cyan-400/50 flex items-center justify-center text-cyan-400 mb-4 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-200 font-mono">[ ESPACIO RESERVADO PARA VIDEO ]</h4>
+                        <p class="text-xs sm:text-sm text-slate-400 max-w-md mt-2">
+                            Para visualizar tu video, coloca el archivo <span class="font-mono text-cyan-300">video.mp4</span> en la carpeta del proyecto.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- PÁGINA 6: EJERCICIOS Y PROBLEMAS RESUELTOS -->
+        <!-- ========================================== -->
+        <section id="ejercicios" class="page-view hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[calc(100vh-8.5rem)]">
+            <div class="text-center mb-12">
+                <span class="telemetry-tag uppercase tracking-widest text-emerald-400">[ APARTADO 06 // RESOLUCIÓN TELEMÉTRICA ]</span>
+                <h2 class="text-3xl sm:text-5xl font-black mt-3 text-slate-100 font-mono">Ejercicios & Problemas Propuestos</h2>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-4 text-sm sm:text-base">
+                    Colección de problemas fundamentales con desarrollo analítico paso a paso. Intenta resolverlos por tu cuenta antes de desplegar las soluciones.
+                </p>
+            </div>
+
+            <div class="space-y-6 max-w-4xl mx-auto">
+                
+                <!-- PROBLEMA 1 -->
+                <div class="hud-panel p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-cyan-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-1 bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 font-mono font-bold text-xs">PROBLEMA 01</span>
+                            <span class="text-sm font-semibold text-slate-200 font-mono">Integral Polinomial Básica</span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400">Regla de la Potencia</span>
+                    </div>
+
+                    <div class="my-5 text-lg sm:text-xl font-mono text-center text-cyan-300 py-3 bg-slate-950/90 border border-cyan-500/20">
+                        $$\int (4x^3 - 6x^2 + 5x - 7)\,dx$$
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 mb-4">
+                        <strong>Enunciado:</strong> Calcula la antiderivada general aplicando la regla de linealidad y la fórmula de potencias $\int x^n dx = \frac{x^{n+1}}{n+1} + C$.
+                    </p>
+
+                    <button class="toggle-solution-btn ripple-btn w-full py-2.5 px-4 border border-cyan-500/40 bg-cyan-950/30 hover:bg-cyan-900/50 text-cyan-300 font-mono font-bold text-xs transition-all flex items-center justify-center">
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        [ DESPLEGAR SOLUCIÓN PASO A PASO ]
+                    </button>
+
+                    <!-- Solución oculta -->
+                    <div class="solution-content hidden mt-6 p-6 bg-slate-950/95 border border-cyan-500/30 text-xs sm:text-sm text-slate-300 space-y-4">
+                        <h4 class="font-bold text-cyan-400 font-mono uppercase text-xs">Paso a Paso de la Solución:</h4>
+                        <div>
+                            <strong>Paso 1:</strong> Separar cada término por la propiedad de linealidad:
+                            <div class="font-mono text-cyan-200 my-1">
+                                $$= 4\int x^3\,dx - 6\int x^2\,dx + 5\int x\,dx - 7\int 1\,dx$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 2:</strong> Integrar cada monomio sumando 1 al exponente:
+                            <div class="font-mono text-cyan-200 my-1">
+                                $$= 4\left(\frac{x^4}{4}\right) - 6\left(\frac{x^3}{3}\right) + 5\left(\frac{x^2}{2}\right) - 7x + C$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 3:</strong> Simplificar los coeficientes algebraicos:
+                            <div class="p-3 bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 font-mono text-center font-bold">
+                                Resultado: $x^4 - 2x^3 + \frac{5}{2}x^2 - 7x + C$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROBLEMA 2 -->
+                <div class="hud-panel p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-purple-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-1 bg-purple-500/10 border border-purple-500/40 text-purple-400 font-mono font-bold text-xs">PROBLEMA 02</span>
+                            <span class="text-sm font-semibold text-slate-200 font-mono">Método de Sustitución ($u$-Substitution)</span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400">Regla de la Cadena Inversa</span>
+                    </div>
+
+                    <div class="my-5 text-lg sm:text-xl font-mono text-center text-purple-300 py-3 bg-slate-950/90 border border-purple-500/20">
+                        $$\int 2x \sqrt{x^2 + 9}\,dx$$
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 mb-4">
+                        <strong>Enunciado:</strong> Evalúa la integral indefinida realizando un cambio de variable adecuado para transformar el radicando en una potencia elemental.
+                    </p>
+
+                    <button class="toggle-solution-btn ripple-btn w-full py-2.5 px-4 border border-purple-500/40 bg-purple-950/30 hover:bg-purple-900/50 text-purple-300 font-mono font-bold text-xs transition-all flex items-center justify-center">
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        [ DESPLEGAR SOLUCIÓN PASO A PASO ]
+                    </button>
+
+                    <!-- Solución oculta -->
+                    <div class="solution-content hidden mt-6 p-6 bg-slate-950/95 border border-purple-500/30 text-xs sm:text-sm text-slate-300 space-y-4">
+                        <h4 class="font-bold text-purple-400 font-mono uppercase text-xs">Paso a Paso de la Solución:</h4>
+                        <div>
+                            <strong>Paso 1:</strong> Elegir la sustitución conveniente:
+                            <div class="font-mono text-purple-200 my-1">
+                                Sea $u = x^2 + 9 \implies du = 2x\,dx$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 2:</strong> Reescribir la integral en términos de $u$:
+                            <div class="font-mono text-purple-200 my-1">
+                                $$= \int \sqrt{u}\,du = \int u^{1/2}\,du$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 3:</strong> Integrar aplicando la regla de la potencia:
+                            <div class="font-mono text-purple-200 my-1">
+                                $$= \frac{u^{3/2}}{3/2} + C = \frac{2}{3}u^{3/2} + C$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 4:</strong> Regresar a la variable original $x$:
+                            <div class="p-3 bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 font-mono text-center font-bold">
+                                Resultado: $\frac{2}{3}(x^2 + 9)^{3/2} + C = \frac{2}{3}\sqrt{(x^2 + 9)^3} + C$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROBLEMA 3 -->
+                <div class="hud-panel p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-pink-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-1 bg-pink-500/10 border border-pink-500/40 text-pink-400 font-mono font-bold text-xs">PROBLEMA 03</span>
+                            <span class="text-sm font-semibold text-slate-200 font-mono">Integración por Partes</span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400">Fórmula: $\int u\,dv = uv - \int v\,du$</span>
+                    </div>
+
+                    <div class="my-5 text-lg sm:text-xl font-mono text-center text-pink-300 py-3 bg-slate-950/90 border border-pink-500/20">
+                        $$\int x \cdot e^{2x}\,dx$$
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 mb-4">
+                        <strong>Enunciado:</strong> Determina la integral del producto de una función algebraica por una exponencial aplicando la técnica de integración por partes (criterio ILATE).
+                    </p>
+
+                    <button class="toggle-solution-btn ripple-btn w-full py-2.5 px-4 border border-pink-500/40 bg-pink-950/30 hover:bg-pink-900/50 text-pink-300 font-mono font-bold text-xs transition-all flex items-center justify-center">
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        [ DESPLEGAR SOLUCIÓN PASO A PASO ]
+                    </button>
+
+                    <!-- Solución oculta -->
+                    <div class="solution-content hidden mt-6 p-6 bg-slate-950/95 border border-pink-500/30 text-xs sm:text-sm text-slate-300 space-y-4">
+                        <h4 class="font-bold text-pink-400 font-mono uppercase text-xs">Paso a Paso de la Solución:</h4>
+                        <div>
+                            <strong>Paso 1:</strong> Identificar $u$ y $dv$ usando el orden de prioridad ILATE:
+                            <div class="font-mono text-pink-200 my-1">
+                                $u = x \implies du = dx$<br>
+                                $dv = e^{2x}\,dx \implies v = \int e^{2x}\,dx = \frac{1}{2}e^{2x}$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 2:</strong> Aplicar la fórmula de integración por partes:
+                            <div class="font-mono text-pink-200 my-1">
+                                $$\int u\,dv = uv - \int v\,du = x\left(\frac{1}{2}e^{2x}\right) - \int \frac{1}{2}e^{2x}\,dx$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 3:</strong> Resolver la integral remanente:
+                            <div class="font-mono text-pink-200 my-1">
+                                $$= \frac{1}{2}x e^{2x} - \frac{1}{4}e^{2x} + C$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 4:</strong> Factorizar la expresión final:
+                            <div class="p-3 bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 font-mono text-center font-bold">
+                                Resultado: $\frac{1}{2}e^{2x}\left(x - \frac{1}{2}\right) + C = \frac{e^{2x}(2x - 1)}{4} + C$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROBLEMA 4 -->
+                <div class="hud-panel p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-emerald-500/20">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-mono font-bold text-xs">PROBLEMA 04</span>
+                            <span class="text-sm font-semibold text-slate-200 font-mono">Integral Definida (Cálculo de Área)</span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400">Teorema Fundamental</span>
+                    </div>
+
+                    <div class="my-5 text-lg sm:text-xl font-mono text-center text-emerald-300 py-3 bg-slate-950/90 border border-emerald-500/20">
+                        $$\int_{0}^{\pi} \sin(x)\,dx$$
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 mb-4">
+                        <strong>Enunciado:</strong> Calcula el área exacta comprendida bajo un arco de la función seno desde $x = 0$ hasta $x = \pi$ utilizando la regla de Barrow.
+                    </p>
+
+                    <button class="toggle-solution-btn ripple-btn w-full py-2.5 px-4 border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 font-mono font-bold text-xs transition-all flex items-center justify-center">
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        [ DESPLEGAR SOLUCIÓN PASO A PASO ]
+                    </button>
+
+                    <!-- Solución oculta -->
+                    <div class="solution-content hidden mt-6 p-6 bg-slate-950/95 border border-emerald-500/30 text-xs sm:text-sm text-slate-300 space-y-4">
+                        <h4 class="font-bold text-emerald-400 font-mono uppercase text-xs">Paso a Paso de la Solución:</h4>
+                        <div>
+                            <strong>Paso 1:</strong> Encontrar la primitiva de $\sin(x)$:
+                            <div class="font-mono text-emerald-200 my-1">
+                                $F(x) = -\cos(x)$ ya que $\frac{d}{dx}[-\cos(x)] = \sin(x)$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 2:</strong> Evaluar en los límites de integración $b = \pi$ y $a = 0$:
+                            <div class="font-mono text-emerald-200 my-1">
+                                $$[-\cos(x)]_{0}^{\pi} = (-\cos(\pi)) - (-\cos(0))$$
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Paso 3:</strong> Sustituir los valores trigonométricos conocidos ($\cos(\pi) = -1$, $\cos(0) = 1$):
+                            <div class="font-mono text-emerald-200 my-1">
+                                $$= -(-1) - (-1) = 1 + 1 = 2$$
+                            </div>
+                        </div>
+                        <div>
+                            <div class="p-3 bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 font-mono text-center font-bold">
+                                Área Exacta: $2\text{ unidades cuadradas}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quiz Interactivo de Autoevaluación -->
+            <div class="mt-12 max-w-4xl mx-auto hud-panel p-6 sm:p-10 border border-cyan-400/40">
+                <div class="text-center mb-8">
+                    <span class="telemetry-tag uppercase tracking-widest text-cyan-400">[ EVALUACIÓN TELEMÉTRICA CONCEPTUAL ]</span>
+                    <h3 class="text-2xl font-bold text-slate-100 mt-2 font-mono">Test de Autoevaluación Conceptual</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Verifica tu comprensión de los conceptos clave.</p>
+                </div>
+
+                <form id="math-quiz-form" class="space-y-6">
+                    
+                    <!-- Pregunta 1 -->
+                    <div id="question-q1" class="p-5 bg-slate-950/70 border border-slate-800 transition-colors">
+                        <p class="text-sm font-semibold text-slate-200 mb-3 font-mono">1. Según el Teorema Fundamental del Cálculo (Parte 1), si $F(x) = \int_a^x f(t)\,dt$, entonces:</p>
+                        <div class="space-y-2 text-xs font-mono">
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q1" value="a" required class="accent-cyan-400">
+                                <span>A) $F'(x) = f'(x)$</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q1" value="b" class="accent-cyan-400">
+                                <span>B) $F'(x) = f(x)$</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q1" value="c" class="accent-cyan-400">
+                                <span>C) $F(x) = f(b) - f(a)$</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div id="question-q2" class="p-5 bg-slate-950/70 border border-slate-800 transition-colors">
+                        <p class="text-sm font-semibold text-slate-200 mb-3 font-mono">2. ¿Cuál es el resultado de la integral $\int e^x\,dx$?</p>
+                        <div class="space-y-2 text-xs font-mono">
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q2" value="a" required class="accent-cyan-400">
+                                <span>A) $e^x + C$</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q2" value="b" class="accent-cyan-400">
+                                <span>B) $\frac{e^{x+1}}{x+1} + C$</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q2" value="c" class="accent-cyan-400">
+                                <span>C) $\ln(x) + C$</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div id="question-q3" class="p-5 bg-slate-950/70 border border-slate-800 transition-colors">
+                        <p class="text-sm font-semibold text-slate-200 mb-3 font-mono">3. La fórmula de integración por partes se deduce de:</p>
+                        <div class="space-y-2 text-xs font-mono">
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q3" value="a" required class="accent-cyan-400">
+                                <span>A) La regla del cociente de la derivada</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q3" value="b" class="accent-cyan-400">
+                                <span>B) La regla de la cadena</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q3" value="c" class="accent-cyan-400">
+                                <span>C) La regla del producto de la derivada</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div id="question-q4" class="p-5 bg-slate-950/70 border border-slate-800 transition-colors">
+                        <p class="text-sm font-semibold text-slate-200 mb-3 font-mono">4. Si se evalúa $\int_0^2 x\,dx$, el valor numérico exacto es:</p>
+                        <div class="space-y-2 text-xs font-mono">
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q4" value="a" required class="accent-cyan-400">
+                                <span>A) 4</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q4" value="b" class="accent-cyan-400">
+                                <span>B) 2</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-slate-900 cursor-pointer">
+                                <input type="radio" name="q4" value="c" class="accent-cyan-400">
+                                <span>C) 1</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="quiz-result" class="hidden"></div>
+
+                    <button type="submit" class="ripple-btn cyber-btn-primary w-full py-3.5 font-mono text-sm tracking-widest uppercase">
+                        COMPROBAR RESULTADOS TELEMÉTRICOS
+                    </button>
+                </form>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Global Floating Pagination Dock with Shortcuts Hint -->
+    <div class="sticky bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-2xl border-t border-cyan-500/20 py-3 px-4">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            
+            <!-- Botón Anterior -->
+            <button id="global-prev-page-btn" class="ripple-btn px-4 py-2 border border-slate-700 bg-slate-900/90 hover:border-cyan-400 text-slate-200 text-xs sm:text-sm font-mono font-bold transition-all flex items-center gap-1.5 shadow-sm">
+                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <span>[ ANTERIOR ]</span>
+            </button>
+
+            <!-- Paginación con Puntos Interactivos & Atajos -->
+            <div class="flex flex-col items-center gap-1">
+                <div class="flex items-center gap-2">
+                    <div class="page-dot active" title="Página 1: Inicio"></div>
+                    <div class="page-dot" title="Página 2: Definiciones"></div>
+                    <div class="page-dot" title="Página 3: Figuras Procedurales"></div>
+                    <div class="page-dot" title="Página 4: Historia"></div>
+                    <div class="page-dot" title="Página 5: Video"></div>
+                    <div class="page-dot" title="Página 6: Ejercicios"></div>
+                </div>
+                <div class="hidden sm:block text-[10px] font-mono text-slate-500">
+                    ATAJOS: [<span class="text-cyan-400">←</span> / <span class="text-cyan-400">→</span>] &bull; [<span class="text-cyan-400">1</span>-<span class="text-cyan-400">6</span> PÁGINAS] &bull; [<span class="text-cyan-400">F</span> PANTALLA COMPLETA]
+                </div>
+            </div>
+
+            <!-- Botón Siguiente -->
+            <button id="global-next-page-btn" class="ripple-btn px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black text-xs sm:text-sm font-mono font-black transition-all flex items-center gap-1.5 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                <span>[ SIGUIENTE ]</span>
+                <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="math-canvas.js"></script>
+    <script src="procedural-sims.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
