@@ -1,6 +1,6 @@
 universidad: Universidad Mariano Galvez De Guatemala
 Facultad: Facultad De Ingeniería 
-Titulo: Integración 
+Titulo: Métodos de Integración (Método de Sustitución)
 estudiante: Cristian Alberto Mendez Rivera
 Carnet: 9941 - 25 - 5734 
 Carrera: Ingeniería en Sistemas / computación 

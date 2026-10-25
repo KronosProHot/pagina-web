@@ -1,6 +1,6 @@
-# Proyecto: INTEGRACIÓN - CÁLCULO II
+# Proyecto: MÉTODOS DE INTEGRACIÓN - CÁLCULO II (Método de Sustitución)
 
-Este proyecto ha sido completamente encapsulado y desacoplado como un proyecto independiente, con **todas sus dependencias extraídas y empaquetadas localmente** en la carpeta `vendor/`, permitiendo su ejecución offline y sin conexiones externas.
+Este proyecto ha sido desarrollado como una plataforma web interactiva dedicada al estudio de los **métodos de integración**, profundizando y abarcando en detalle el **método de integración por sustitución (cambio de variable)**. El proyecto está completamente encapsulado y desacoplado, con todas sus dependencias extraídas y empaquetadas localmente en la carpeta `vendor/`.
 
 ---
 
@@ -35,7 +35,7 @@ pagina web/
 1. **Doble Clic:** Haz doble clic en el archivo `abrir-pagina.bat`.
 2. **Servidor Local (Opcional):**
    ```powershell
-   cd "C:\Users\PROBOOK\Downloads\pagina web"
+   cd "C:\repositorios\pagina web"
    python -m http.server 8000
    ```
    Y abre `http://localhost:8000` en tu navegador.
